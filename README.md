@@ -1,7 +1,7 @@
 # A-Realtime-Image-Dehazing-using-CNN-and-DCP
 
 <p align="center">
-  <img src="synthetic_haze_demo.png" width="750"/>
+  <img src="synthetic_haze_demo.png" width="850"/>
 </p>
 
 <h3 align="center">
@@ -12,36 +12,61 @@ Real-Time Single Image Dehazing using CNN and Dark Channel Prior (DCP)
   Deep Learning • Computer Vision • Image Restoration • PyTorch
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/PyTorch-DeepLearning-red?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/OpenCV-ComputerVision-green?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Flask-WebApp-black?style=for-the-badge"/>
+</p>
+
 ---
 
-## 📌 Overview
+# 📌 Overview
 
 Atmospheric haze significantly degrades image quality by reducing visibility, contrast, and color fidelity. This project presents a hybrid real-time image dehazing framework that combines:
 
 * **Convolutional Neural Networks (CNNs)** for feature extraction and restoration
-* **Dark Channel Prior (DCP)** for haze estimation and enhancement
-* **PyTorch-based training pipeline** for model optimization
+* **Dark Channel Prior (DCP)** for atmospheric light estimation
+* **PyTorch-based training pipeline** for efficient deep learning experimentation
 
-The system is designed to restore clear scene details from hazy images while maintaining computational efficiency for near real-time inference.
+The proposed framework restores visually clear images from hazy scenes while maintaining computational efficiency suitable for near real-time inference.
 
 ---
 
 # ✨ Features
 
-* Real-time image dehazing
-* CNN-based image restoration
-* Dark Channel Prior enhancement
-* PyTorch training pipeline
-* Evaluation metrics support
-* Flask-based web interface
-* Modular and extensible architecture
-* Inference support for custom images
+✅ Real-time image dehazing
+✅ CNN-based image restoration
+✅ Dark Channel Prior enhancement
+✅ PyTorch training pipeline
+✅ Evaluation metrics support
+✅ Flask-based web application
+✅ Modular and scalable architecture
+✅ Custom image inference support
+
+---
+
+# 🖼️ Demo Results
+
+## Synthetic Haze Example
+
+<p align="center">
+  <img src="synthetic_haze_demo.png" width="800"/>
+</p>
+
+---
+
+## Example Workflow
+
+<p align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:1200/1*UaQBNft8Cem2m4N0VwMrow.png" width="850"/>
+</p>
 
 ---
 
 # 🏗️ Project Architecture
 
-```text id="n1"
+```text id="a1"
 Input Hazy Image
         │
         ▼
@@ -56,13 +81,12 @@ Image Reconstruction
         ▼
 Dehazed Output Image
 ```
-<img width="1654" height="951" alt="image" src="https://github.com/user-attachments/assets/a8837453-fd26-4d1d-b4d7-7b8553e9bee7" />
 
 ---
 
 # 📂 Project Structure
 
-```bash id="n2"
+```bash id="a2"
 A-Realtime-Image-Dehazing-using-CNN-and-DCP/
 │
 ├── Code/
@@ -87,24 +111,49 @@ A-Realtime-Image-Dehazing-using-CNN-and-DCP/
 
 # 🧠 Methodology
 
-The proposed framework integrates traditional image priors with deep learning techniques:
+The framework integrates traditional image priors with deep learning techniques.
 
-## 1. Dark Channel Prior (DCP)
+---
 
-Dark Channel Prior estimates atmospheric light and transmission maps to improve haze removal performance.
+## 1️⃣ Dark Channel Prior (DCP)
 
-## 2. CNN-Based Restoration
+Dark Channel Prior estimates:
 
-The CNN learns haze-relevant features and reconstructs visually enhanced images with improved:
+* atmospheric light
+* transmission maps
+* haze density
 
-* contrast
-* texture details
-* visibility
-* color consistency
+This improves haze removal performance before deep restoration.
 
-## 3. Post-Processing
+<p align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:1400/1*0w3l1vY0wM6hM9Vw4M4K5Q.png" width="700"/>
+</p>
 
-Final enhancement and refinement improve visual quality and reduce artifacts.
+---
+
+## 2️⃣ CNN-Based Restoration
+
+The CNN learns haze-aware features and reconstructs visually enhanced images with:
+
+* improved contrast
+* sharper textures
+* enhanced visibility
+* restored color fidelity
+
+<p align="center">
+  <img src="https://production-media.paperswithcode.com/methods/Screen_Shot_2020-06-07_at_11.49.00_PM_r4L4Y8W.png" width="800"/>
+</p>
+
+---
+
+## 3️⃣ Post-Processing
+
+Final enhancement improves:
+
+* edge sharpness
+* visual quality
+* detail recovery
+* artifact reduction
 
 ---
 
@@ -114,33 +163,43 @@ The dataset is excluded from this repository because of GitHub storage limitatio
 
 ## Recommended Datasets
 
-### 🔹 RESIDE Dataset
+---
+
+## 🔹 RESIDE Dataset
 
 Large-scale benchmark dataset for single image dehazing.
 
-* Official Website:
-  https://sites.google.com/view/reside-dehaze-datasets/reside-v0
+### Official Website
 
-* Direct Download:
-  https://drive.google.com/file/d/1EM87UquaoQmk17Q8d5kYIAfRYnhTR7My/view
+https://sites.google.com/view/reside-dehaze-datasets/reside-v0
+
+### Direct Download
+
+https://drive.google.com/file/d/1EM87UquaoQmk17Q8d5kYIAfRYnhTR7My/view
+
+<p align="center">
+  <img src="https://sites.google.com/view/reside-dehaze-datasets/_/rsrc/1520591081060/home/fig1.png" width="800"/>
+</p>
 
 ---
 
-### 🔹 O-HAZE Dataset
+## 🔹 O-HAZE Dataset
 
 Real outdoor hazy image benchmark dataset.
 
-* Dataset Link:
-  https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/
+### Dataset Link
+
+https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/
 
 ---
 
-### 🔹 Dense-Haze Dataset
+## 🔹 Dense-Haze Dataset
 
 Dense haze benchmark dataset for evaluating dehazing performance.
 
-* Dataset Link:
-  https://data.vision.ee.ethz.ch/cvl/ntire18/dense-haze/
+### Dataset Link
+
+https://data.vision.ee.ethz.ch/cvl/ntire18/dense-haze/
 
 ---
 
@@ -148,7 +207,7 @@ Dense haze benchmark dataset for evaluating dehazing performance.
 
 ## Clone Repository
 
-```bash id="n3"
+```bash id="a3"
 git clone https://github.com/lalithtejakarnati/A-Realtime-Image-Dehazing-using-CNN-and-DCP.git
 
 cd A-Realtime-Image-Dehazing-using-CNN-and-DCP
@@ -158,7 +217,7 @@ cd A-Realtime-Image-Dehazing-using-CNN-and-DCP
 
 ## Install Dependencies
 
-```bash id="n4"
+```bash id="a4"
 pip install -r requirements.txt
 ```
 
@@ -168,7 +227,7 @@ pip install -r requirements.txt
 
 ## Train the Model
 
-```bash id="n5"
+```bash id="a5"
 python Code/train.py
 ```
 
@@ -176,7 +235,7 @@ python Code/train.py
 
 ## Evaluate Model Performance
 
-```bash id="n6"
+```bash id="a6"
 python Code/evaluate.py
 ```
 
@@ -184,7 +243,7 @@ python Code/evaluate.py
 
 ## Run Inference
 
-```bash id="n7"
+```bash id="a7"
 python Code/inference.py
 ```
 
@@ -192,7 +251,7 @@ python Code/inference.py
 
 ## Launch Web Application
 
-```bash id="n8"
+```bash id="a8"
 python Code/app.py
 ```
 
@@ -202,25 +261,11 @@ python Code/app.py
 
 The model performance can be evaluated using:
 
-* PSNR (Peak Signal-to-Noise Ratio)
-* SSIM (Structural Similarity Index)
-* Visual Quality Assessment
-
----
-
-# 🖼️ Results
-
-The proposed model improves:
-
-* Scene visibility
-* Contrast restoration
-* Edge sharpness
-* Color fidelity
-* Texture recovery
-
-| Input Hazy Image | Dehazed Output       |
-| ---------------- | -------------------- |
-| Hazy Scene       | Clear Restored Scene |
+| Metric            | Description                   |
+| ----------------- | ----------------------------- |
+| PSNR              | Peak Signal-to-Noise Ratio    |
+| SSIM              | Structural Similarity Index   |
+| Visual Assessment | Subjective quality evaluation |
 
 ---
 
@@ -240,12 +285,12 @@ The proposed model improves:
 
 # 🔮 Future Improvements
 
-* Transformer-based dehazing architectures
+* Transformer-based dehazing
 * Real-time video dehazing
-* Lightweight mobile deployment
+* Mobile deployment
 * TensorRT optimization
-* Attention-based restoration networks
-* GAN-based enhancement models
+* GAN-based enhancement
+* Attention-based restoration
 
 ---
 
@@ -253,11 +298,11 @@ The proposed model improves:
 
 Contributions are welcome.
 
-If you would like to improve the project:
+To contribute:
 
 1. Fork the repository
 2. Create a feature branch
-3. Commit your changes
+3. Commit changes
 4. Open a pull request
 
 ---
@@ -266,8 +311,9 @@ If you would like to improve the project:
 
 ## Karnati Lalith Teja
 
-* GitHub:
-  https://github.com/lalithtejakarnati
+### GitHub
+
+https://github.com/lalithtejakarnati
 
 ---
 
@@ -277,7 +323,7 @@ This project is intended for:
 
 * academic research
 * educational purposes
-* experimentation in computer vision and deep learning
+* computer vision experimentation
 
 ---
 
