@@ -1,6 +1,6 @@
 # A-Realtime-Image-Dehazing-using-CNN-and-DCP
 
-<img width="1654" height="951" alt="Screenshot 2026-05-28 at 4 39 47 PM" src="https://github.com/user-attachments/assets/06e6d0ef-0084-4451-865b-79ae846bd6a4" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 39 47 PM" src="https://github.com/user-attachments/assets/06e6d0ef-0084-4451-865b-79ae846bd6a4" />
 
 
 ---
