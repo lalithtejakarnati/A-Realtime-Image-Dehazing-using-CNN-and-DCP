@@ -106,7 +106,7 @@ The dataset is excluded from this repository because of GitHub storage limitatio
 ## Recommended Datasets
 
 ### 🔹 RESIDE Dataset
-<img width="119" height="83" alt="Screenshot 2026-05-28 at 4 41 08 PM" src="https://github.com/user-attachments/assets/b0f72984-dc00-4178-8848-1c0330cb87eb" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 41 08 PM" src="https://github.com/user-attachments/assets/b0f72984-dc00-4178-8848-1c0330cb87eb" />
 
 Large-scale benchmark dataset for single image dehazing.
 
@@ -119,7 +119,7 @@ Large-scale benchmark dataset for single image dehazing.
 ---
 
 ### 🔹 O-HAZE Dataset
-<img width="115" height="79" alt="Screenshot 2026-05-28 at 4 41 14 PM" src="https://github.com/user-attachments/assets/18c0bfb5-6aaf-496f-9a2f-386d978e25b0" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 41 14 PM" src="https://github.com/user-attachments/assets/18c0bfb5-6aaf-496f-9a2f-386d978e25b0" />
 
 Real outdoor hazy image benchmark dataset.
 
@@ -129,7 +129,7 @@ Real outdoor hazy image benchmark dataset.
 ---
 
 ### 🔹 Dense-Haze Dataset
-<img width="120" height="80" alt="Screenshot 2026-05-28 at 4 41 19 PM" src="https://github.com/user-attachments/assets/2bd1b6d1-a577-4735-a337-8d25dbe82df4" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 41 19 PM" src="https://github.com/user-attachments/assets/2bd1b6d1-a577-4735-a337-8d25dbe82df4" />
 
 Dense haze benchmark dataset for evaluating dehazing performance.
 
@@ -216,12 +216,12 @@ The proposed model improves:
 | ---------------- | -------------------- |
 | Hazy Scene       | Clear Restored Scene |
 
-<img width="253" height="95" alt="Screenshot 2026-05-28 at 4 40 53 PM" src="https://github.com/user-attachments/assets/56dd45ce-f127-4771-9946-01e7099173fe" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 40 53 PM" src="https://github.com/user-attachments/assets/56dd45ce-f127-4771-9946-01e7099173fe" />
 
 ---
 
 # 🛠️ Technologies Used
-<img width="174" height="67" alt="Screenshot 2026-05-28 at 4 41 50 PM" src="https://github.com/user-attachments/assets/fc9cbeb8-872b-4bf1-a0b7-430918d8db68" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 41 50 PM" src="https://github.com/user-attachments/assets/fc9cbeb8-872b-4bf1-a0b7-430918d8db68" />
 
 | Technology | Purpose               |
 | ---------- | --------------------- |
@@ -236,7 +236,7 @@ The proposed model improves:
 ---
 
 # 🔮 Future Improvements
-<img width="248" height="72" alt="Screenshot 2026-05-28 at 4 41 57 PM" src="https://github.com/user-attachments/assets/f0fcdd48-5abd-451b-848f-44790e5fe60c" />
+<img width="1654" height="500" alt="Screenshot 2026-05-28 at 4 41 57 PM" src="https://github.com/user-attachments/assets/f0fcdd48-5abd-451b-848f-44790e5fe60c" />
 
 * Transformer-based dehazing architectures
 * Real-time video dehazing
