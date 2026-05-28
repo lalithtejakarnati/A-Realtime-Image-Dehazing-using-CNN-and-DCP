@@ -1,6 +1,8 @@
+# A-Realtime-Image-Dehazing-using-CNN-and-DCP
 
-
-# 🌫️ A-Realtime-Image-Dehazing-using-CNN-and-DCP
+<p align="center">
+  <img src="synthetic_haze_demo.png" width="750"/>
+</p>
 
 <h3 align="center">
 Real-Time Single Image Dehazing using CNN and Dark Channel Prior (DCP)
@@ -12,15 +14,15 @@ Real-Time Single Image Dehazing using CNN and Dark Channel Prior (DCP)
 
 ---
 
-# 📌 Overview
+## 📌 Overview
 
 Atmospheric haze significantly degrades image quality by reducing visibility, contrast, and color fidelity. This project presents a hybrid real-time image dehazing framework that combines:
 
-* Convolutional Neural Networks (CNNs)
-* Dark Channel Prior (DCP)
-* PyTorch-based training pipeline
+* **Convolutional Neural Networks (CNNs)** for feature extraction and restoration
+* **Dark Channel Prior (DCP)** for haze estimation and enhancement
+* **PyTorch-based training pipeline** for model optimization
 
-The framework restores visually clear images from hazy scenes while maintaining computational efficiency suitable for near real-time inference.
+The system is designed to restore clear scene details from hazy images while maintaining computational efficiency for near real-time inference.
 
 ---
 
@@ -31,31 +33,50 @@ The framework restores visually clear images from hazy scenes while maintaining 
 * Dark Channel Prior enhancement
 * PyTorch training pipeline
 * Evaluation metrics support
-* Flask-based web application
-* Modular architecture
-* Custom image inference support
+* Flask-based web interface
+* Modular and extensible architecture
+* Inference support for custom images
 
 ---
 
 # 🏗️ Project Architecture
 
-The proposed framework follows a hybrid image dehazing pipeline:
-
-1. Input Hazy Image
-2. Dark Channel Prior Processing
-3. CNN-Based Feature Extraction
-4. Image Reconstruction
-5. Final Dehazed Output
+```text id="n1"
+Input Hazy Image
+        │
+        ▼
+Dark Channel Prior Processing
+        │
+        ▼
+CNN-based Feature Extraction
+        │
+        ▼
+Image Reconstruction
+        │
+        ▼
+Dehazed Output Image
+```
+<img width="1654" height="951" alt="image" src="https://github.com/user-attachments/assets/fbda28c7-76ad-4213-ba8f-183296934697" />
 
 ---
 
 # 📂 Project Structure
 
-```bash
+```bash id="n2"
 A-Realtime-Image-Dehazing-using-CNN-and-DCP/
 │
-├── assets/
 ├── Code/
+│   ├── app.py
+│   ├── dataset.py
+│   ├── evaluate.py
+│   ├── inference.py
+│   ├── interface.html
+│   ├── losses.py
+│   ├── metrics.py
+│   ├── model.py
+│   ├── test.py
+│   └── train.py
+│
 ├── synthetic_haze_demo.png
 ├── requirements.txt
 ├── README.md
@@ -64,29 +85,80 @@ A-Realtime-Image-Dehazing-using-CNN-and-DCP/
 
 ---
 
+# 🧠 Methodology
+
+The proposed framework integrates traditional image priors with deep learning techniques:
+
+## 1. Dark Channel Prior (DCP)
+
+Dark Channel Prior estimates atmospheric light and transmission maps to improve haze removal performance.
+
+## 2. CNN-Based Restoration
+
+The CNN learns haze-relevant features and reconstructs visually enhanced images with improved:
+
+* contrast
+* texture details
+* visibility
+* color consistency
+
+## 3. Post-Processing
+
+Final enhancement and refinement improve visual quality and reduce artifacts.
+
+---
+
 # 📊 Dataset
 
-## RESIDE Dataset
+The dataset is excluded from this repository because of GitHub storage limitations.
 
-https://sites.google.com/view/reside-dehaze-datasets/reside-v0
+## Recommended Datasets
 
-## O-HAZE Dataset
+### 🔹 RESIDE Dataset
 
-https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/
+Large-scale benchmark dataset for single image dehazing.
 
-## Dense-Haze Dataset
+* Official Website:
+  https://sites.google.com/view/reside-dehaze-datasets/reside-v0
 
-https://data.vision.ee.ethz.ch/cvl/ntire18/dense-haze/
+* Direct Download:
+  https://drive.google.com/file/d/1EM87UquaoQmk17Q8d5kYIAfRYnhTR7My/view
+
+---
+
+### 🔹 O-HAZE Dataset
+
+Real outdoor hazy image benchmark dataset.
+
+* Dataset Link:
+  https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/
+
+---
+
+### 🔹 Dense-Haze Dataset
+
+Dense haze benchmark dataset for evaluating dehazing performance.
+
+* Dataset Link:
+  https://data.vision.ee.ethz.ch/cvl/ntire18/dense-haze/
 
 ---
 
 # ⚙️ Installation
 
-```bash
+## Clone Repository
+
+```bash id="n3"
 git clone https://github.com/lalithtejakarnati/A-Realtime-Image-Dehazing-using-CNN-and-DCP.git
 
 cd A-Realtime-Image-Dehazing-using-CNN-and-DCP
+```
 
+---
+
+## Install Dependencies
+
+```bash id="n4"
 pip install -r requirements.txt
 ```
 
@@ -94,27 +166,33 @@ pip install -r requirements.txt
 
 # 🚀 Usage
 
-## Train
+## Train the Model
 
-```bash
+```bash id="n5"
 python Code/train.py
 ```
 
-## Evaluate
+---
 
-```bash
+## Evaluate Model Performance
+
+```bash id="n6"
 python Code/evaluate.py
 ```
 
-## Inference
+---
 
-```bash
+## Run Inference
+
+```bash id="n7"
 python Code/inference.py
 ```
 
-## Run Flask App
+---
 
-```bash
+## Launch Web Application
+
+```bash id="n8"
 python Code/app.py
 ```
 
@@ -122,37 +200,92 @@ python Code/app.py
 
 # 📈 Evaluation Metrics
 
-* PSNR
-* SSIM
+The model performance can be evaluated using:
+
+* PSNR (Peak Signal-to-Noise Ratio)
+* SSIM (Structural Similarity Index)
 * Visual Quality Assessment
+
+---
+
+# 🖼️ Results
+
+The proposed model improves:
+
+* Scene visibility
+* Contrast restoration
+* Edge sharpness
+* Color fidelity
+* Texture recovery
+
+| Input Hazy Image | Dehazed Output       |
+| ---------------- | -------------------- |
+| Hazy Scene       | Clear Restored Scene |
 
 ---
 
 # 🛠️ Technologies Used
 
-* Python
-* PyTorch
-* OpenCV
-* NumPy
-* Flask
-* CNN
-* DCP
+| Technology | Purpose               |
+| ---------- | --------------------- |
+| Python     | Core Programming      |
+| PyTorch    | Deep Learning         |
+| OpenCV     | Image Processing      |
+| NumPy      | Numerical Computation |
+| Flask      | Web Application       |
+| CNN        | Feature Learning      |
+| DCP        | Haze Estimation       |
 
 ---
 
 # 🔮 Future Improvements
 
-* Transformer-based dehazing
+* Transformer-based dehazing architectures
 * Real-time video dehazing
+* Lightweight mobile deployment
 * TensorRT optimization
-* Mobile deployment
-* GAN-based enhancement
+* Attention-based restoration networks
+* GAN-based enhancement models
+
+---
+
+# 🤝 Contribution
+
+Contributions are welcome.
+
+If you would like to improve the project:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
 
 ---
 
 # 👨‍💻 Author
 
-Karnati Lalith Teja
+## Karnati Lalith Teja
 
-GitHub:
-https://github.com/lalithtejakarnati
+* GitHub:
+  https://github.com/lalithtejakarnati
+
+---
+
+# 📜 License
+
+This project is intended for:
+
+* academic research
+* educational purposes
+* experimentation in computer vision and deep learning
+
+---
+
+# ⭐ Acknowledgements
+
+Special thanks to:
+
+* RESIDE Dataset creators
+* PyTorch community
+* OpenCV contributors
+* Computer Vision research community
