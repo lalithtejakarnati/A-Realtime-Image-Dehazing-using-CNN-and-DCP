@@ -1,0 +1,6 @@
+torch>=2.0.0        # Deep learning framework — builds and runs the DehazeNet CNN model
+torchvision>=0.15.0 # Image transforms and pretrained models used during training
+opencv-python>=4.7.0 # Camera capture, image processing, and MJPEG stream for the web UI
+numpy>=1.24.0       # Array operations used throughout — haze math, frame handling
+flask>=2.3.0        # Web server that serves the browser interface and camera streams
+Pillow>=9.5.0       # Image loading and decoding for the training dataset

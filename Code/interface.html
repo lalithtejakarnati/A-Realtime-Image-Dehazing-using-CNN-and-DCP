@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AetherLiftNet — Real-Time</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+</style>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070d14;--panel:#090f18;
+  --cyan:#00e5ff;--cyan2:#00c8ff;
+  --text:#a0c8d8;--muted:#304858;
+  --green:#00e5a0;--warn:#ff9900;--red:#ff4466;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);
+  font-family:'Orbitron','Segoe UI',sans-serif;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,
+  rgba(0,200,255,0.012) 3px,rgba(0,200,255,0.012) 4px)}
+
+.app{height:100vh;display:grid;grid-template-rows:56px 1fr 60px}
+
+/* ── HEADER ── */
+header{display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;background:var(--panel);
+  border-bottom:1px solid rgba(0,200,255,0.25);
+  position:relative;overflow:hidden;z-index:10}
+header::after{content:'';position:absolute;bottom:0;height:1px;
+  width:60%;left:-60%;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:sweep 3s linear infinite}
+@keyframes sweep{to{left:160%}}
+
+.hdr-right{display:flex;align-items:center;gap:28px}
+.stat-pill{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.sv{font-family:'Share Tech Mono','Courier New',monospace;font-size:15px;color:#fff;line-height:1}
+.sl{font-family:'Share Tech Mono','Courier New',monospace;font-size:8px;
+  color:var(--muted);letter-spacing:0.2em;text-transform:uppercase}
+
+.badge{display:flex;align-items:center;gap:7px;padding:5px 14px;
+  border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.06);
+  font-family:'Share Tech Mono','Courier New',monospace;
+  font-size:11px;letter-spacing:0.12em;color:var(--cyan)}
+.badge.amb{border-color:rgba(255,180,0,0.4);background:rgba(255,180,0,0.06);color:#ffb400}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;
+  box-shadow:0 0 6px currentColor;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{50%{opacity:0.2}}
+
+/* ── FEEDS ── */
+.feeds{display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.feed{position:relative;overflow:hidden;background:#050b12}
+.feed+.feed{border-left:1px solid rgba(0,200,255,0.3)}
+.feed img{width:100%;height:100%;object-fit:cover;display:block}
+
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;
+  background:#050b12;transition:opacity 0.3s;z-index:5}
+.ph.hidden{opacity:0;pointer-events:none}
+.ph-ico{width:68px;height:68px;border:1.5px solid rgba(0,229,255,0.45);
+  border-radius:12px;display:flex;align-items:center;justify-content:center}
+.ph-ico svg{width:32px;height:32px;stroke:rgba(0,229,255,0.65)}
+.ph-txt{font-family:'Share Tech Mono','Courier New',monospace;font-size:11px;
+  letter-spacing:0.2em;color:rgba(0,229,255,0.5);text-transform:uppercase}
+
+.feed-lbl{position:absolute;bottom:14px;left:14px;z-index:10;
+  font-family:'Share Tech Mono','Courier New',monospace;
+  font-size:10px;letter-spacing:0.18em;font-weight:600;padding:4px 10px;
+  border:1px solid rgba(0,229,255,0.5);background:rgba(5,11,18,0.88);
+  color:var(--cyan);text-shadow:0 0 8px rgba(0,229,255,0.6)}
+
+.corner{position:absolute;width:16px;height:16px;border-color:rgba(0,229,255,0.3);
+  border-style:solid;pointer-events:none;z-index:20}
+.corner.tl{top:0;left:0;border-width:2px 0 0 2px}
+.corner.tr{top:0;right:0;border-width:2px 2px 0 0}
+.corner.bl{bottom:0;left:0;border-width:0 0 2px 2px}
+.corner.br{bottom:0;right:0;border-width:0 2px 2px 0}
+
+.vs-wrap{position:absolute;left:50%;top:0;bottom:0;transform:translateX(-50%);
+  pointer-events:none;z-index:30;display:flex;align-items:center;justify-content:center}
+.vs{font-family:'Share Tech Mono','Courier New',monospace;font-size:10px;
+  letter-spacing:0.15em;padding:4px 10px;background:rgba(5,11,18,0.92);
+  border:1px solid rgba(0,229,255,0.5);color:var(--cyan);font-weight:600;
+  text-shadow:0 0 8px rgba(0,229,255,0.6)}
+
+/* ── BOTTOM BAR ── */
+.bar{display:flex;align-items:center;padding:0 20px;gap:10px;
+  background:var(--panel);border-top:1px solid rgba(0,229,255,0.15)}
+
+.btn{display:flex;align-items:center;gap:7px;padding:8px 16px;
+  font-family:'Share Tech Mono','Courier New',monospace;
+  font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+  border:1px solid;cursor:pointer;transition:background 0.15s;
+  background:transparent;white-space:nowrap}
+.btn-start{border-color:rgba(0,229,255,0.55);color:var(--cyan)}
+.btn-start:hover{background:rgba(0,229,255,0.08)}
+.btn-start.running{border-color:rgba(255,68,102,0.6);color:var(--red)}
+.btn-start.running:hover{background:rgba(255,68,102,0.08)}
+.btn-upload{border-color:rgba(0,229,255,0.45);color:var(--cyan)}
+.btn-upload:hover{background:rgba(0,229,255,0.08)}
+.btn-snap{border-color:rgba(0,229,255,0.35);color:rgba(0,229,255,0.75)}
+.btn-snap:hover{background:rgba(0,229,255,0.08)}
+.btn-snap.saved{border-color:var(--green);color:var(--green)}
+
+input[type=file]{display:none}
+.img-tag{font-family:'Share Tech Mono','Courier New',monospace;font-size:10px;
+  letter-spacing:0.12em;padding:3px 8px;
+  border:1px solid rgba(0,229,255,0.3);color:rgba(0,229,255,0.65);display:none}
+.img-tag.show{display:inline-block}
+
+.bar-stats{margin-left:auto;display:flex;align-items:center;gap:28px}
+.bstat{display:flex;flex-direction:column;align-items:center;gap:2px}
+.bsv{font-family:'Share Tech Mono','Courier New',monospace;font-size:20px;
+  color:#fff;line-height:1;transition:color 0.3s}
+.bsv.good{color:var(--green)}.bsv.warn{color:var(--warn)}
+.bsv.mode{font-size:22px;font-weight:700;color:var(--cyan);
+  text-shadow:0 0 10px rgba(0,229,255,0.45)}
+.bsl{font-family:'Share Tech Mono','Courier New',monospace;font-size:8px;
+  color:var(--muted);letter-spacing:0.15em;text-transform:uppercase}
+
+.toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:var(--panel);border:1px solid rgba(0,200,255,0.35);color:var(--text);
+  padding:9px 20px;font-family:'Share Tech Mono','Courier New',monospace;
+  font-size:12px;letter-spacing:0.08em;opacity:0;transition:all 0.3s ease;
+  pointer-events:none;white-space:nowrap;z-index:2000}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div></div>
+    <div class="hdr-right">
+      <div class="stat-pill">
+        <div class="sv" id="clock">--:--:-- --</div>
+        <div class="sl">System Time</div>
+      </div>
+      <div class="stat-pill">
+        <div class="sv">MPS</div>
+        <div class="sl">Device</div>
+      </div>
+      <div class="badge amb" id="badge">
+        <div class="dot"></div>
+        <span id="badgeTxt">CONNECTING</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEEDS -->
+  <div class="feeds">
+    <!-- INPUT -->
+    <div class="feed">
+      <img id="inImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+      <div class="ph" id="phIn">
+        <div class="ph-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.2">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M8 6V4h8v2"/><circle cx="12" cy="13" r="3"/>
+          </svg>
+        </div>
+        <div class="ph-txt" id="phInTxt">Press Start Camera</div>
+      </div>
+      <div class="corner tl"></div><div class="corner bl"></div>
+      <div class="feed-lbl" id="inLbl">HAZY</div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="feed">
+      <img id="outImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+      <div class="ph" id="phOut">
+        <div class="ph-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.2">
+            <path d="M12 3a9 9 0 100 18A9 9 0 0012 3z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="ph-txt" id="phOutTxt">Waiting...</div>
+      </div>
+      <div class="corner tr"></div><div class="corner br"></div>
+      <div class="feed-lbl">DEHAZED</div>
+    </div>
+
+    <div class="vs-wrap"><div class="vs">VS</div></div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bar">
+    <button class="btn btn-start" id="startBtn" onclick="toggleCamera()">
+      <svg id="startIco" width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <span id="startLbl">Start Camera</span>
+    </button>
+
+    <input type="file" id="fileIn" accept="image/*" onchange="uploadImage(this)">
+    <button class="btn btn-upload" onclick="document.getElementById('fileIn').click()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      Upload Image
+    </button>
+
+    <span class="img-tag" id="imgTag">IMAGE MODE</span>
+
+    <button class="btn btn-snap" id="snapBtn" onclick="snapshot()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="8" width="18" height="13" rx="2"/>
+        <path d="M9 8V6a3 3 0 016 0v2"/>
+        <circle cx="12" cy="14" r="2"/>
+      </svg>
+      Snapshot
+    </button>
+    <button class="btn btn-upload" id="modeToggleBtn" onclick="toggleMode()" style="display:none">
+      <span id="modeToggleTxt">Switch to CNN</span>
+    </button>
+
+    <div class="bar-stats">
+      <div class="bstat">
+        <div class="bsv" id="sFps"></div>
+        <div class="bsl">FPS</div>
+      </div>
+      <div class="bstat">
+        <div class="bsv" id="sInf"></div>
+        <div class="bsl">Infer MS</div>
+      </div>
+      <div class="bstat" id="modeStat" style="display:none">
+        <div class="bsv mode" id="modeLabel">—</div>
+        <div class="bsl">Mode</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Suppress sandbox errors
+window.addEventListener('unhandledrejection', e => {
+  if (e.reason && (e.reason.name === 'TypeError' || e.reason.name === 'AbortError')) e.preventDefault()
+})
+window.addEventListener('error', e => {
+  if (e.message === 'Script error.' || e.filename === '') e.preventDefault()
+})
+
+// Clock
+function tick(){
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('en-US', {hour12: true})
+}
+tick(); setInterval(tick, 1000)
+
+let camRunning = false, imageMode = false, inLive = false, outLive = false
+let currentMode = "DCP"
+const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
+
+function setBadge(txt, amber=false){
+  document.getElementById('badge').className = 'badge' + (amber ? ' amb' : '')
+  document.getElementById('badgeTxt').textContent = txt
+}
+
+function checkLive(){ if(inLive && outLive) setBadge('LIVE') }
+
+async function toggleCamera(){
+  if(!camRunning){
+    try{
+      const r = await fetch('/api/start', {method:'POST', signal:AbortSignal.timeout(4000)})
+      if(!r.ok) throw new Error()
+    } catch { showToast('Server not reachable'); return }
+
+    camRunning = true; imageMode = false; inLive = false; outLive = false
+    // Force default mode to DCP when camera starts
+    currentMode = "DCP"
+    document.getElementById('modeLabel').textContent = "DCP"
+    document.getElementById('modeToggleTxt').textContent = "Switch to CNN"
+
+    // Sync backend mode
+    fetch('/api/set_mode', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({mode: "DCP"})
+    }).catch(()=>{})
+
+    document.getElementById('imgTag').classList.remove('show')
+    document.getElementById('inLbl').textContent = 'HAZY'
+    document.getElementById('modeToggleBtn').style.display = 'inline-flex'
+    document.getElementById('modeStat').style.display = 'flex'
+
+    const btn = document.getElementById('startBtn')
+    btn.classList.add('running')
+    document.getElementById('startIco').innerHTML = '<rect x="6" y="6" width="12" height="12" rx="1"/>'
+    document.getElementById('startLbl').textContent = 'Stop Camera'
+    document.getElementById('phInTxt').textContent  = 'Connecting...'
+    document.getElementById('phOutTxt').textContent = 'Processing...'
+    document.getElementById('phIn').classList.remove('hidden')
+    document.getElementById('phOut').classList.remove('hidden')
+    setBadge('CONNECTING', true)
+
+    const inImg  = document.getElementById('inImg')
+    const outImg = document.getElementById('outImg')
+    inImg.onload  = () => { inLive  = true; document.getElementById('phIn').classList.add('hidden');  checkLive() }
+    outImg.onload = () => { outLive = true; document.getElementById('phOut').classList.add('hidden'); checkLive() }
+    inImg.onerror = outImg.onerror = () => {}
+    inImg.src  = '/feed/input?t='  + Date.now()
+    outImg.src = '/feed/output?t=' + Date.now()
+    showToast('Camera starting...')
+
+  } else {
+    try { await fetch('/api/stop', {method:'POST', signal:AbortSignal.timeout(4000)}) } catch {}
+    camRunning = false; inLive = false; outLive = false
+    document.getElementById('modeToggleBtn').style.display = 'none'
+    document.getElementById('modeStat').style.display = 'none'
+
+    const inImg  = document.getElementById('inImg')
+    const outImg = document.getElementById('outImg')
+    inImg.src  = BLANK; outImg.src = BLANK
+    inImg.onload = outImg.onload = null
+    document.getElementById('phIn').classList.remove('hidden')
+    document.getElementById('phOut').classList.remove('hidden')
+    document.getElementById('phInTxt').textContent  = 'Press Start Camera'
+    document.getElementById('phOutTxt').textContent = 'Waiting...'
+    const btn = document.getElementById('startBtn')
+    btn.classList.remove('running')
+    document.getElementById('startIco').innerHTML = '<path d="M8 5v14l11-7z"/>'
+    document.getElementById('startLbl').textContent = 'Start Camera'
+    setBadge('STOPPED', true)
+    showToast('Camera stopped')
+  }
+}
+
+async function uploadImage(input){
+  const file = input.files[0]; if(!file) return
+  if(camRunning) await toggleCamera()
+  imageMode = true; setBadge('IMAGE', true)
+  document.getElementById('modeToggleBtn').style.display = 'none'
+  
+  // Show mode as CNN in image mode
+  document.getElementById('modeStat').style.display = 'flex'
+  document.getElementById('modeLabel').textContent = 'CNN'
+
+  const inImg  = document.getElementById('inImg')
+  const outImg = document.getElementById('outImg')
+  inImg.src = BLANK; outImg.src = BLANK
+  document.getElementById('phIn').classList.remove('hidden')
+  document.getElementById('phOut').classList.remove('hidden')
+  document.getElementById('phInTxt').textContent  = 'Loading...'
+  document.getElementById('phOutTxt').textContent = 'Processing with CNN...'
+  document.getElementById('imgTag').classList.add('show')
+  document.getElementById('inLbl').textContent = 'HAZY'
+
+  const fd = new FormData(); fd.append('image', file)
+  try {
+    const r = await fetch('/api/upload', {method:'POST', body:fd, signal:AbortSignal.timeout(15000)})
+    const d = await r.json()
+    if(d.ok){
+      const t = Date.now()
+      inImg.onload  = () => document.getElementById('phIn').classList.add('hidden')
+      outImg.onload = () => { document.getElementById('phOut').classList.add('hidden'); setBadge('DONE') }
+      inImg.src  = '/result/input?t='  + t
+      outImg.src = '/result/output?t=' + t
+      showToast('CNN dehaze done ✓  ' + d.inf_ms + 'ms')
+    } else { showToast('Error: ' + (d.error || 'unknown')) }
+  } catch { showToast('Server not reachable') }
+  input.value = ''
+}
+
+async function snapshot(){
+  const btn = document.getElementById('snapBtn')
+  try {
+    const r = await fetch('/api/snapshot', {method:'POST', signal:AbortSignal.timeout(5000)})
+    const d = await r.json()
+    if(d.ok){
+      btn.classList.add('saved')
+      showToast('Saved → ' + d.path.split('/').slice(-1)[0])
+      setTimeout(() => btn.classList.remove('saved'), 2000)
+    } else { showToast('Error: ' + (d.error || '')) }
+  } catch { showToast('Server not reachable') }
+}
+
+
+// Mode polling
+async function updateMode(){
+  try{
+    const r = await fetch('/api/mode')
+    if(!r.ok) return
+    const d = await r.json()
+
+    const label = d.mode === "DCP" ? "DCP" : "CNN"
+    currentMode = label
+    document.getElementById('modeLabel').textContent = label
+
+    const btnTxt = label === "DCP" ? "Switch to CNN" : "Switch to DCP"
+    document.getElementById('modeToggleTxt').textContent = btnTxt
+  } catch {}
+}
+setInterval(updateMode, 500)
+updateMode()
+
+ // Toggle mode button (optimized + instant UI sync)
+ async function toggleMode(){
+   try{
+     const nextMode = currentMode === "DCP" ? "CNN" : "DCP"
+
+     // instant UI feedback (no wait)
+     currentMode = nextMode
+     document.getElementById('modeLabel').textContent = nextMode
+     document.getElementById('modeToggleTxt').textContent =
+       nextMode === "DCP" ? "Switch to CNN" : "Switch to DCP"
+
+     const r = await fetch('/api/set_mode', {
+       method:'POST',
+       headers:{'Content-Type':'application/json'},
+       body: JSON.stringify({mode: nextMode})
+     })
+
+     if(!r.ok) throw new Error()
+
+     showToast("Mode: " + nextMode)
+
+   } catch (e){
+     console.error("TOGGLE ERROR:", e)
+     showToast("Mode switch failed")
+   }
+ }
+
+// Stats polling
+setInterval(async () => {
+  if(imageMode || !camRunning) {
+    document.getElementById('sFps').textContent = ''
+    document.getElementById('sInf').textContent = ''
+    document.querySelector('#sFps').parentElement.style.display = 'none'
+    document.querySelector('#sInf').parentElement.style.display = 'none'
+    return
+  }
+  try {
+    const r = await fetch('/api/status', {signal: AbortSignal.timeout(2000)})
+    if(!r.ok) return
+    const s = await r.json()
+    const fe = document.getElementById('sFps')
+    const ie = document.getElementById('sInf')
+    if (s.running) {
+      fe.textContent = s.fps
+      ie.textContent = s.inf_ms
+      fe.parentElement.style.display = 'flex'
+      ie.parentElement.style.display = 'flex'
+    } else {
+      fe.textContent = ''
+      ie.textContent = ''
+      fe.parentElement.style.display = 'none'
+      ie.parentElement.style.display = 'none'
+    }
+    fe.className   = 'bsv' + (s.fps >= 50 ? ' good' : s.fps >= 25 ? '' : ' warn')
+  } catch {}
+}, 600)
+
+function showToast(msg){
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.classList.add('show')
+  setTimeout(() => el.classList.remove('show'), 2400)
+}
+</script>
+</body>
+</html>
